@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<title>LEDFun</title>
+
+<link rel="stylesheet" href="external/jquery-ui.min.css">
+<link rel="stylesheet" href="external/spectrum.css">
+<script src="external/jquery/jquery.js"></script>
+<script src="external/spectrum.js"></script>
+<script src="external/jquery-ui.min.js"></script>
+<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+
+<style>
+table {
+  width: 100%;
+  border-spacing: 10px
+}
+tr {
+  margin: 10px;
+}
+</style>
+
+</head>
+
+<body>
+  <div id="dialog">
+    <form>
+      <div id="strip">
+        <input type="radio" id="strip1" value="1" name="strip" checked="checked"><label for="strip1">Strip 1</label>
+        <input type="radio" id="strip2" value="2" name="strip"><label for="strip2">Strip 2</label>
+        <input type="radio" id="strip3" value="3" name="strip"><label for="strip3">Strip 3</label>
+      </div>
+    </form>
+    <table id="table">
+      <tr>
+        <td>Speed</td>
+        <td><div id="slider"></div></td>
+      </tr>
+      <tr>
+        <td>Color</td>
+        <td><input id="colorpicker" type="text" /></td>
+      </tr>
+      <tr>
+        <td>Animation</td>
+        <td>
+          <select name="animation" id="animation" style="width: 100%">
+            <option value="0" selected="selected">Blank</option>
+            <option value="1">Color Sweep</option>
+            <option value="2">Chaser</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <button id="send" style="">Send</button>
+  </div>
+</body>
+</html>
+
+<script>
+
+var socket = io();
+$(document).ready(function() {
+  $("#dialog").dialog({
+    width: 350,
+    height: 350,
+    title: "LED Controller",
+    resizable: false,
+    draggable: false
+  });
+  $(".ui-dialog-titlebar-close").hide();
+  $("#strip").buttonset();
+  $("#slider").slider();
+  colorpicker = $("#colorpicker").spectrum({
+    color: "#f00"
+  });
+  $("#animation").selectmenu();
+  $("#send").button().click(function(event){
+    device = parseInt($('input[name=strip]:checked').attr("value"));
+    animation = parseInt($("#animation").val());
+    speed = $('#slider').slider("option", "value") * .85 + 15;
+
+    color = $("#colorpicker").spectrum("get").toRgb();
+    socket.emit('send', [device, animation, speed, color.r, color.g, color.b]);
+  });
+});
+
+</script>
