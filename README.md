@@ -1,11 +1,13 @@
-# Overview
+# OttoLight
+
+## Overview
 
 OttoLight is a framework for networked communication between a 
 web service and master controller to any number of nearby client 
 controllers. It is currently designed for use with WS2812/WS2811 
 LED strips, although the clients can preform any remote task.
 
-# Details
+## Details
 
 This system is built to run on the Texas Instrument [MSP430]
 (http://www.ti.com/ww/en/launchpad/launchpads-msp430.html#tabs)
@@ -25,7 +27,7 @@ blocking tasks, it is possible for the client to miss a message
 while processing LED information. Therefore, the master controller
 repeats its transmission until an echo is received from the client.
 
-# Background
+## Background
 
 I wrote this system at [Hack_UTD](http://hackutd.co/), The
 University of Texas at Dallas's first major student hackathon.
@@ -35,7 +37,7 @@ hardware. Because I only had twenty-four hours to get a functional
 prototype, the code may seem a bit rough. I'm planning on cleaning 
 it up and documenting the codebase.
 
-# Installation and Usage
+## Installation and Usage
 
 This program has two main requirements, and a few other small 
 dependencies.
@@ -49,14 +51,14 @@ dependencies.
 After installing those dependencies, download or clone this repository
 and keep following the below instructions.
 
-## Master
+### Master
 
 Open `./Master/Master.ino` in Energia and make sure that you have all of the
 dependencies and the code compiles. Select the correct board and serial COM
 port, then burn the program. Open the serial monitor and reset the board to
 confirm that serial communication(9600 baud) works.
 
-## Client
+### Client
 
 Open `./Client/Client.ino` in Energia and modify the leading lines to match 
 your board and number of LEDs. You should assign each device a unique ID
@@ -69,7 +71,7 @@ order to function. If you use more than the board has available, it will
 silently fail after running out. In my experience, the MSP430G2 can't run
 many more than 30 LED's and the MSP430F5529 can run at least 150.
 
-## Webserver
+### Webserver
 
 In a command prompt, navigate to `./webserver` and execute `auto.js`, followed
 by the name of the COM port of the master controller.
