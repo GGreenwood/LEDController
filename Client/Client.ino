@@ -18,14 +18,14 @@
 //uint8_t deviceID = 1;
 
 // Setup 60 GRB LED Strip on Launchpad pin P1_0
-const uint8_t NUM_PIXELS = 30;
-WS2811Driver ledStrip = WS2811Driver(30, P1_0, NEO_GRB);
-uint8_t deviceID = 2;
+//const uint8_t NUM_PIXELS = 30;
+//WS2811Driver ledStrip = WS2811Driver(30, P1_0, NEO_GRB);
+//uint8_t deviceID = 2;
 
 // Setup 60 GRB LED Strip on Launchpad pin P1_0
 const uint8_t NUM_PIXELS = 30;
-//WS2811Driver ledStrip = WS2811Driver(30, P1_0, NEO_GRB);
-//uint8_t deviceID = 3;
+WS2811Driver ledStrip = WS2811Driver(30, P1_0, NEO_GRB);
+uint8_t deviceID = 3;
 
 
 
