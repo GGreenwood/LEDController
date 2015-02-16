@@ -88,3 +88,44 @@ The web interface is currently configured only three client devices, but it can
 easily be expanded.
 
 ![Default web interface](https://raw.githubusercontent.com/GGreenwood/OttoLight/master/interface.png)
+
+## Communication
+Currently, there are two communication formats: one for the master to send to clients, and one for the clients to use while echoing back. The content of the first byte(DESTINATION_ID) determines which message type is being used. The master has a device ID of 0, while the clients increment from 1 to 255. 
+
+### Master to Client
+
+```
+{DESTINATION_ID, MODE, DELAY, RED, GREEN, BLUE}
+```
+
+This six-byte format is used only when the destination device ID is nonzero.
+
+* DESTINATION_ID
+ * The ID of the device receiving the message
+* MODE
+ * The ID of the animation to use. 0 is off, 1 is a color sweep, 2 is a chase, etc.
+* DELAY
+ * The number of milliseconds to delay in between frames. If a value lower than 15ms is received, it is rounded up to 15.
+* RED
+ * The RGB value in red to display.
+* GREEN
+ * The RGB value in green to display.
+* BLUE
+ * The RGB value in blue to display.
+
+### Client to Master
+
+```
+{DESTINATION_ID, MODE, SENDER_ID, SENDER_TYPE}
+```
+
+This four-byte format is used for clients communicating back to the master. In this case, the destination device ID is always 0.
+
+* DESTINATION_ID
+ * The ID of the device receiving the message (zero)
+* MODE
+ * The purpose of the message. 0 is used to confirm a successful transmission
+* SENDER_ID
+ * The device ID of the transmitting device
+* SENDER_TYPE
+ * The type of device sending the message. Is intended for more general messaging, but is currently just 1 for LED strips.
